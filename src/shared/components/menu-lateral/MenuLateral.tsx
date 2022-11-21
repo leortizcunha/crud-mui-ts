@@ -1,11 +1,11 @@
-import { Avatar, Divider, Drawer, List, useMediaQuery, useTheme } from '@mui/material';
+import { Avatar, Divider, Drawer, Icon, List, ListItemButton, ListItemIcon, ListItemText, useMediaQuery, useTheme } from '@mui/material';
 import { Box } from '@mui/system';
 
-import { useDrawerContext } from '../../contexts';
+import { useAppThemeContext, useDrawerContext } from '../../contexts';
 import { ListItemLink } from './ListItemLink';
 
 interface IMenuLateralChildren {
-    children: React.ReactNode;
+	children: React.ReactNode;
 }
 
 export const MenuLateral: React.FC<IMenuLateralChildren> = ({ children }) => {
@@ -15,6 +15,8 @@ export const MenuLateral: React.FC<IMenuLateralChildren> = ({ children }) => {
 	const smDown = useMediaQuery(theme.breakpoints.down('sm'));
 
 	const { isDrawerOpen, toggleDrawerOpen, drawerOptions } = useDrawerContext();
+
+	const { toggleTheme } = useAppThemeContext();
 
 	return (
 		<>
@@ -30,15 +32,26 @@ export const MenuLateral: React.FC<IMenuLateralChildren> = ({ children }) => {
 					<Divider />
 
 					<Box flex={1}>
-						<List component="nav">							
-							{drawerOptions.map(drawerOption =>(
+						<List component="nav">
+							{drawerOptions.map(drawerOption => (
 								<ListItemLink
 									key={drawerOption.path}
 									icon={drawerOption.icon}
 									label={drawerOption.label}
 									to={drawerOption.path}
-									onClick={smDown ? toggleDrawerOpen : undefined}/>
+									onClick={smDown ? toggleDrawerOpen : undefined} />
 							))}
+						</List>
+					</Box>
+
+					<Box>
+						<List component="nav">
+							<ListItemButton onClick={toggleTheme}>
+								<ListItemIcon>
+									<Icon>dark_mode</Icon>
+								</ListItemIcon>
+								<ListItemText primary='Alterar tema' />
+							</ListItemButton>
 						</List>
 					</Box>
 				</Box>
