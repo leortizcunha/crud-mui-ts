@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
-import { LinearProgress, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from '@mui/material';
-import { useSearchParams } from 'react-router-dom';
+
+import { IconButton, Icon, LinearProgress, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from '@mui/material';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { green, red } from '@mui/material/colors';
 
 import { IListagemPessoa, PessoasService } from '../../shared/services/api/pessoas/PessoasService';
 import { FerramentasDaListagem } from '../../shared/components';
@@ -13,6 +15,8 @@ export const ListagemPessoa: React.FC = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	const { debounce } = useDebounce();
+
+	const navigate = useNavigate();
 
 
 	const [rows, setRows] = useState<IListagemPessoa[]>([]);
@@ -47,6 +51,25 @@ export const ListagemPessoa: React.FC = () => {
 		});
 	}, [busca, pagina]);
 
+	const handleDelete = (id: number) => {
+
+		if (confirm('Deseja apagar o registro?')) {
+			PessoasService.deleteById(id)
+				.then(result => {
+					if (result instanceof Error) {
+						alert(result.message);
+					} else {
+						setRows(oldRows => [
+							...oldRows.filter(oldRow => oldRow.id !== id)
+						]);
+
+						alert('Registro apagado!');
+					}
+				});
+		}
+
+	};
+
 	return (
 		<LayoutBasePage
 			title='Listagem de Pessoas'
@@ -55,6 +78,7 @@ export const ListagemPessoa: React.FC = () => {
 					mostrarInputBusca
 					textoBotaoNovo='Nova'
 					textoDaBusca={busca}
+					aoClicarEmNovo={() => navigate('/pessoas/detalhe/nova')}
 					aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '1' }, { replace: true })}
 				/>
 			}
@@ -75,7 +99,17 @@ export const ListagemPessoa: React.FC = () => {
 					<TableBody>
 						{rows.map(row => (
 							<TableRow key={row.id}>
-								<TableCell>Ações</TableCell>
+								<TableCell sx={{p: 0.5}}>
+
+									<IconButton size="small" onClick={() => handleDelete(row.id)}>
+										<Icon sx={{color: red[500]}}>delete</Icon>
+									</IconButton>
+
+									<IconButton size="small" onClick={() => navigate(`/pessoas/detalhe/${row.id}`)}>
+										<Icon sx={{ color: green[500] }}>edit</Icon>
+									</IconButton>
+
+								</TableCell>
 
 								<TableCell>{row.nomeCompleto}</TableCell>
 

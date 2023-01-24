@@ -1,10 +1,22 @@
 {
-    "pessoas": [
-        {
-            "id": "1",
-            "email":"leo@live.com,",
-            "nomeCompleto": "Leo",
-            "cidadeId": 1
-        }
-    ]
+  "pessoas": [
+    {
+      "id": "1",
+      "nomeCompleto": "Leo",
+      "email": "leo@live.com",
+      "cidadeId": 1
+    },
+    {
+      "id": 2,
+      "nomeCompleto": "leo",
+      "email": "leo@nardo.com",
+      "cidadeId": "2"
+    },
+    {
+      "nomeCompleto": "exemplo",
+      "email": "exemplo@example.com",
+      "cidadeId": "1",
+      "id": 3
+    }
+  ]
 }
