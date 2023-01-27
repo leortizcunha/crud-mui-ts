@@ -2,9 +2,9 @@
   "pessoas": [
     {
       "id": "1",
-      "nomeCompleto": "Leo",
+      "cidadeId": 1,
       "email": "leo@live.com",
-      "cidadeId": 1
+      "nomeCompleto": "leo"
     },
     {
       "id": 2,
