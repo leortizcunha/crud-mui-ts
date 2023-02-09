@@ -3,25 +3,21 @@ import * as yup from 'yup';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Box, Grid, LinearProgress, Paper, Typography } from '@mui/material';
 
-import { PessoasService } from '../../shared/services/api/pessoas/PessoasService';
+import { CidadesService } from '../../shared/services/api/cidades/CidadesService';
 import { VTextField, VForm, useVForm, IVFormErrors } from '../../shared/forms';
 import { FerramentasDeDetalhe } from '../../shared/components';
 import { LayoutBasePage } from '../../shared/layouts';
-import { AutoCompleteCidade } from './components/AutoCompleteCidade';
 
 interface IFormData {
-	nomeCompleto: string;
-	email: string;
-	cidadeId: number;
+	nome: string;
 }
 
 const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
-	nomeCompleto: yup.string().required().min(3),
-	email: yup.string().required().email(),
-	cidadeId: yup.number().required(),
+	nome: yup.string().required().min(3)
+
 });
 
-export const DetalhePessoa: React.FC = () => {
+export const DetalheCidade: React.FC = () => {
 
 	const { id = 'nova' } = useParams<'id'>();
 
@@ -36,15 +32,15 @@ export const DetalhePessoa: React.FC = () => {
 		if (id !== 'nova') {
 			setIsLoading(true);
 
-			PessoasService.getById(Number(id))
+			CidadesService.getById(Number(id))
 				.then((result) => {
 					setIsLoading(false);
 
 					if (result instanceof Error) {
 						alert(result.message);
-						navigate('/pessoas');
+						navigate('/cidades');
 					} else {
-						setNome(result.nomeCompleto);
+						setNome(result.nome);
 						console.log(result);
 
 						formRef.current?.setData(result);
@@ -52,9 +48,7 @@ export const DetalhePessoa: React.FC = () => {
 				});
 		} else {
 			formRef.current?.setData({
-				nomeCompleto: '',
-				email: '',
-				cidadeId: undefined
+				nome: '',				
 			});
 		}
 	}, [id]);
@@ -68,7 +62,7 @@ export const DetalhePessoa: React.FC = () => {
 				setIsLoading(true);
 
 				if (id === 'nova') {
-					PessoasService.create(dadosValidados)
+					CidadesService.create(dadosValidados)
 						.then((result) => {
 							setIsLoading(false);
 
@@ -76,14 +70,14 @@ export const DetalhePessoa: React.FC = () => {
 								alert(result.message);
 							} else {
 								if (isSaveAndClose()) {
-									navigate('/pessoas');
+									navigate('/cidades');
 								} else {
-									navigate(`/pessoas/detalhe/${result}`);
+									navigate(`/cidades/detalhe/${result}`);
 								}
 							}
 						});
 				} else {
-					PessoasService.updateById(Number(id), { id: Number(id), ...dadosValidados })
+					CidadesService.updateById(Number(id), { id: Number(id), ...dadosValidados })
 						.then((result) => {
 							setIsLoading(false);
 
@@ -91,7 +85,7 @@ export const DetalhePessoa: React.FC = () => {
 								alert(result.message);
 							} else {
 								if (isSaveAndClose()) {
-									navigate('/pessoas');
+									navigate('/cidades');
 								}
 							}
 						});
@@ -115,13 +109,13 @@ export const DetalhePessoa: React.FC = () => {
 	const handleDelete = (id: number) => {
 
 		if (confirm('Deseja apagar o registro?')) {
-			PessoasService.deleteById(id)
+			CidadesService.deleteById(id)
 				.then(result => {
 					if (result instanceof Error) {
 						alert(result.message);
 					} else {
 						alert('Registro apagado!');
-						navigate('/pessoas');
+						navigate('/cidades');
 					}
 				});
 		}
@@ -130,7 +124,7 @@ export const DetalhePessoa: React.FC = () => {
 
 	return (
 		<LayoutBasePage
-			title={id === 'nova' ? 'Nova pessoa' : nome}
+			title={id === 'nova' ? 'Nova cidade' : nome}
 			barraDeFerramentas={
 				<FerramentasDeDetalhe
 					textoBotaoNovo='Nova'
@@ -141,8 +135,8 @@ export const DetalhePessoa: React.FC = () => {
 					aoClicarEmApagar={() => handleDelete((Number(id)))}
 					aoClicarEmSalvar={save}
 					aoClicarEmSalvarEVoltar={saveAndClose}
-					aoClicarEmNovo={() => navigate('/pessoas/detalhe/nova')}
-					aoClicarEmVoltar={() => navigate('/pessoas')}
+					aoClicarEmNovo={() => navigate('/cidades/detalhe/nova')}
+					aoClicarEmVoltar={() => navigate('/cidades')}
 				/>
 			}
 		>
@@ -167,32 +161,13 @@ export const DetalhePessoa: React.FC = () => {
 							<Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
 								<VTextField
 									fullWidth
-									label='Nome completo'
-									name='nomeCompleto'
+									label='Nome'
+									name='nome'
 									disabled={isLoading}
 									onChange={e => setNome(e.target.value)}
 								/>
 							</Grid>
-						</Grid>
-
-						<Grid item container direction='row' spacing={2}>
-							<Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-								<VTextField
-									fullWidth
-									label='Email'
-									name='email'
-									disabled={isLoading}
-								/>
-							</Grid>
-						</Grid>
-
-						<Grid item container direction='row' spacing={2}>
-							<Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-								<AutoCompleteCidade
-									isExternalLoading={isLoading}
-								/>
-							</Grid>
-						</Grid>
+						</Grid>									
 
 					</Grid>
 

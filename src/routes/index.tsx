@@ -8,6 +8,8 @@ import {
 	Dashboard,
 	DetalhePessoa,
 	ListagemPessoa,
+	DetalheCidade,
+	ListagemCidade,
 } from '../pages';
 
 export const AppRoutes = () => {
@@ -41,7 +43,8 @@ export const AppRoutes = () => {
 			<Route path='/pessoas' element={<ListagemPessoa />} />
 			<Route path='/pessoas/detalhe/:id' element={<DetalhePessoa />} />
 
-			<Route path='cidades' element={'cidade'}/>
+			<Route path='cidades' element={<ListagemCidade />}/>
+			<Route path='/cidades/detalhe/:id' element={<DetalheCidade />} />
 
 			<Route path='*' element={<Navigate to='/pagina-inicial' />} />
 		</Routes>

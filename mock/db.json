@@ -2,9 +2,9 @@
   "pessoas": [
     {
       "id": "1",
-      "cidadeId": 1,
+      "nomeCompleto": "leo",
       "email": "leo@live.com",
-      "nomeCompleto": "leo"
+      "cidadeId": 2
     },
     {
       "id": 2,
@@ -16,6 +16,26 @@
       "nomeCompleto": "exemplo",
       "email": "exemplo@example.com",
       "cidadeId": "1",
+      "id": 3
+    },
+    {
+      "id": 4,
+      "nomeCompleto": "eua",
+      "email": "eu@eu.com",
+      "cidadeId": 3
+    }
+  ],
+  "cidades": [
+    {
+      "id": 1,
+      "nome": "Porto Alegre"
+    },
+    {
+      "id": 2,
+      "nome": "Palmares do Sul"
+    },
+    {
+      "nome": "Capivari",
       "id": 3
     }
   ]
