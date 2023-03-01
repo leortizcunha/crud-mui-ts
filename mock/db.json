@@ -13,16 +13,16 @@
       "cidadeId": "2"
     },
     {
-      "nomeCompleto": "exemplo",
-      "email": "exemplo@example.com",
-      "cidadeId": "1",
-      "id": 3
-    },
-    {
       "id": 4,
       "nomeCompleto": "eua",
       "email": "eu@eu.com",
       "cidadeId": 3
+    },
+    {
+      "id": 5,
+      "nomeCompleto": "pedro silva",
+      "email": "joao@gmail.com",
+      "cidadeId": 4
     }
   ],
   "cidades": [
@@ -37,6 +37,13 @@
     {
       "nome": "Capivari",
       "id": 3
+    },
+    {
+      "nome": "Osorio",
+      "id": 4
     }
-  ]
+  ],
+  "auth": {
+    "accessToken": "aaa.bbb.ccc"
+  }
 }
